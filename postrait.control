@@ -1,6 +1,6 @@
 comment = 'postrait:  Created by pgrx'
 default_version = '@CARGO_VERSION@'
 module_pathname = 'postrait'
-relocatable = false
+relocatable = true
 superuser = true
 trusted = false
