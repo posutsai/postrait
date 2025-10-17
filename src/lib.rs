@@ -13,8 +13,19 @@ pub extern "C" fn pg_finfo_my_dynamic_set() -> *const pg_sys::Pg_finfo_record {
     &my_dynamic_set_finfo_record
 }
 
+#[pg_extern]
+fn convert_substrait_json_to_runnable_sql(json_str: &str) -> String {
+    format!(
+        "SELECT * FROM my_dynamic_set('{}') AS t({});",
+        "haha", "msg text, num int",
+    )
+}
+
 #[no_mangle]
-pub extern "C-unwind" fn my_dynamic_set(fcinfo: pg_sys::FunctionCallInfo) -> pg_sys::Datum {
+pub extern "C-unwind" fn my_dynamic_set(
+    fcinfo: pg_sys::FunctionCallInfo,
+    json_str: &str,
+) -> pg_sys::Datum {
     unsafe {
         // 1. Get ReturnSetInfo
         let rsinfo = fcinfo.as_ref().unwrap().resultinfo as *mut pg_sys::ReturnSetInfo;
